@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		79195D732B92B692008E2D48 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79195D722B92B692008E2D48 /* CustomSegmentedControl.swift */; };
 		79195D752B92B721008E2D48 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79195D742B92B721008E2D48 /* Constants.swift */; };
+		793AED422B9DAF1900595BAD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 793AED412B9DAF1900595BAD /* GoogleService-Info.plist */; };
 		798C88362B9B6F9C00BEAD17 /* ConstraintsByCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798C88352B9B6F9C00BEAD17 /* ConstraintsByCoding.swift */; };
 		DED4B1FC2600A77B00B5DA8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED4B1FB2600A77B00B5DA8D /* AppDelegate.swift */; };
 		DED4B2002600A77B00B5DA8D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED4B1FF2600A77B00B5DA8D /* ViewController.swift */; };
@@ -38,6 +39,7 @@
 /* Begin PBXFileReference section */
 		79195D722B92B692008E2D48 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		79195D742B92B721008E2D48 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		793AED412B9DAF1900595BAD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		798C88352B9B6F9C00BEAD17 /* ConstraintsByCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintsByCoding.swift; sourceTree = "<group>"; };
 		DED4B1F82600A77B00B5DA8D /* BaseProjectSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaseProjectSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DED4B1FB2600A77B00B5DA8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		793AED3F2B9DAEAA00595BAD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				79195D722B92B692008E2D48 /* CustomSegmentedControl.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		793AED402B9DAEEB00595BAD /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				793AED412B9DAF1900595BAD /* GoogleService-Info.plist */,
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
 		798C88342B9B6F4500BEAD17 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -110,13 +128,14 @@
 		DED4B1FA2600A77B00B5DA8D /* BaseProjectSwift */ = {
 			isa = PBXGroup;
 			children = (
+				793AED402B9DAEEB00595BAD /* Configs */,
+				793AED3F2B9DAEAA00595BAD /* Views */,
 				798C88342B9B6F4500BEAD17 /* Util */,
 				DED4B1FB2600A77B00B5DA8D /* AppDelegate.swift */,
 				DED4B1FF2600A77B00B5DA8D /* ViewController.swift */,
 				DED4B2042600A77E00B5DA8D /* Assets.xcassets */,
 				DED4B2062600A77E00B5DA8D /* LaunchScreen.storyboard */,
 				DED4B2092600A77E00B5DA8D /* Info.plist */,
-				79195D722B92B692008E2D48 /* CustomSegmentedControl.swift */,
 			);
 			path = BaseProjectSwift;
 			sourceTree = "<group>";
@@ -244,6 +263,7 @@
 			files = (
 				DED4B2082600A77E00B5DA8D /* LaunchScreen.storyboard in Resources */,
 				DED4B2052600A77E00B5DA8D /* Assets.xcassets in Resources */,
+				793AED422B9DAF1900595BAD /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,6 +461,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NDR5YASBWB;
 				INFOPLIST_FILE = BaseProjectSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -459,6 +480,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NDR5YASBWB;
 				INFOPLIST_FILE = BaseProjectSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
