@@ -1,0 +1,47 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :build do
+    # increment_version()
+    build_ios_dev()
+    # add actions here: https://docs.fastlane.tools/actions
+    firebase_app_distribution(
+          app: "1:277886324138:ios:d11a030153e11ee26aefd3",
+          # firebase_cli_path: "/usr/local/bin/firebase",
+          firebase_cli_token: "1//0ehrr9Qh8gl6NCgYIARAAGA4SNwF-L9IrMrHWRrd_ZOfPqrCxeqo6loshylmkSyJjjXJDI2kYxfZxm580ZHvVRuztUyHnfvpmExU",
+          # testers: "tester1@company.com, tester2@company.com",
+          groups: "team-mbtn",
+          release_notes: "Test Fastlane IOS!!"
+      )
+  end
+
+  lane :build_ios_dev do 
+    build_app(scheme: "Runner",
+             workspace: "Runner.xcworkspace",
+             include_bitcode: true,
+             export_method: "development")
+  end
+
+  lane :increment_version do
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: "1:35940771960:ios:91b7905ece3c73220f658d"
+    )
+    increment_build_number({ build_number: latest_release[:buildVersion].to_i + 1 })
+  end
+end

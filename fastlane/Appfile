@@ -1,0 +1,8 @@
+app_identifier("[[com.toannguyen.BaseProjectSwift.BaseProjectSwift]]") # The bundle identifier of your app
+apple_id("[[nktoan.dev@gmail.com]]") # Your Apple Developer Portal username
+
+team_id "NDR5YASBWB" # Developer Portal Team ID
+itc_team_id "6479211256" # App Store Connect Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
