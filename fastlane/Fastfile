@@ -24,23 +24,23 @@ platform :ios do
     firebase_app_distribution(
           app: "1:277886324138:ios:d11a030153e11ee26aefd3",
           # firebase_cli_path: "/usr/local/bin/firebase",
-          firebase_cli_token: "1//0ehrr9Qh8gl6NCgYIARAAGA4SNwF-L9IrMrHWRrd_ZOfPqrCxeqo6loshylmkSyJjjXJDI2kYxfZxm580ZHvVRuztUyHnfvpmExU",
-          # testers: "tester1@company.com, tester2@company.com",
-          groups: "team-mbtn",
+          firebase_cli_token: "1//0goa5UQRXLPbwCgYIARAAGBASNwF-L9IrAvnKZ1uhhP7pRiFX8vc3bdO0-ODTaDamsmxtQs69mYy7SZs_iwswjZ2jSNXPE94GAsY",
+          testers: "nktoan.dev@gmail.com",
+          # groups: "team-mbtn",
           release_notes: "Test Fastlane IOS!!"
       )
   end
 
   lane :build_ios_dev do 
-    build_app(scheme: "Runner",
-             workspace: "Runner.xcworkspace",
+    build_app(scheme: "BaseProjectSwift",
+             workspace: "BaseProjectSwift.xcworkspace",
              include_bitcode: true,
              export_method: "development")
   end
 
   lane :increment_version do
     latest_release = firebase_app_distribution_get_latest_release(
-      app: "1:35940771960:ios:91b7905ece3c73220f658d"
+      app: "1:277886324138:ios:d11a030153e11ee26aefd3"
     )
     increment_build_number({ build_number: latest_release[:buildVersion].to_i + 1 })
   end

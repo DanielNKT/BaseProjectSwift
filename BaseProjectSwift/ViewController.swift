@@ -48,9 +48,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     private func setupUI() {
         self.view.backgroundColor = .white
+        self.tableView.backgroundColor = .white
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         self.view.addSubview(tableView)
-        tableView.dataSource = self
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         
         view.addSubview(segmentedControlContainerView)
         segmentedControlContainerView.addSubview(segmentedControl)
