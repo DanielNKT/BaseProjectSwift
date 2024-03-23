@@ -13,8 +13,12 @@
 		79195D752B92B721008E2D48 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79195D742B92B721008E2D48 /* Constants.swift */; };
 		793AED422B9DAF1900595BAD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 793AED412B9DAF1900595BAD /* GoogleService-Info.plist */; };
 		798C88362B9B6F9C00BEAD17 /* ConstraintsByCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798C88352B9B6F9C00BEAD17 /* ConstraintsByCoding.swift */; };
+		79A0DA1E2BA9E21F00294B3C /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A0DA1D2BA9E21F00294B3C /* CustomView.swift */; };
+		79C1FBB52BA9E5CE0060C0E0 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C1FBB42BA9E5CE0060C0E0 /* HomeViewModel.swift */; };
+		79C1FBB72BADCCA30060C0E0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C1FBB62BADCCA30060C0E0 /* BaseViewController.swift */; };
+		79C1FBBA2BADCCF90060C0E0 /* BaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C1FBB92BADCCF90060C0E0 /* BaseType.swift */; };
 		DED4B1FC2600A77B00B5DA8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED4B1FB2600A77B00B5DA8D /* AppDelegate.swift */; };
-		DED4B2002600A77B00B5DA8D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED4B1FF2600A77B00B5DA8D /* ViewController.swift */; };
+		DED4B2002600A77B00B5DA8D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED4B1FF2600A77B00B5DA8D /* HomeViewController.swift */; };
 		DED4B2052600A77E00B5DA8D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DED4B2042600A77E00B5DA8D /* Assets.xcassets */; };
 		DED4B2082600A77E00B5DA8D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DED4B2062600A77E00B5DA8D /* LaunchScreen.storyboard */; };
 		DED4B2132600A77E00B5DA8D /* BaseProjectSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED4B2122600A77E00B5DA8D /* BaseProjectSwiftTests.swift */; };
@@ -46,12 +50,16 @@
 		79195D742B92B721008E2D48 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		793AED412B9DAF1900595BAD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		798C88352B9B6F9C00BEAD17 /* ConstraintsByCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintsByCoding.swift; sourceTree = "<group>"; };
+		79A0DA1D2BA9E21F00294B3C /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
+		79C1FBB42BA9E5CE0060C0E0 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		79C1FBB62BADCCA30060C0E0 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		79C1FBB92BADCCF90060C0E0 /* BaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseType.swift; sourceTree = "<group>"; };
 		9A1A497CFCF366CA83EA4D2F /* Pods-BaseProjectSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaseProjectSwiftTests.debug.xcconfig"; path = "Target Support Files/Pods-BaseProjectSwiftTests/Pods-BaseProjectSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AB92EE187116B6FDB3D76CE6 /* Pods_BaseProjectSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaseProjectSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5A1646FF5A495E0C6A93246 /* Pods-BaseProjectSwift-BaseProjectSwiftUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaseProjectSwift-BaseProjectSwiftUITests.debug.xcconfig"; path = "Target Support Files/Pods-BaseProjectSwift-BaseProjectSwiftUITests/Pods-BaseProjectSwift-BaseProjectSwiftUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		DED4B1F82600A77B00B5DA8D /* BaseProjectSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaseProjectSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DED4B1FB2600A77B00B5DA8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DED4B1FF2600A77B00B5DA8D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DED4B1FF2600A77B00B5DA8D /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		DED4B2042600A77E00B5DA8D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DED4B2072600A77E00B5DA8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DED4B2092600A77E00B5DA8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -109,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				79195D722B92B692008E2D48 /* CustomSegmentedControl.swift */,
+				79A0DA1D2BA9E21F00294B3C /* CustomView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -128,6 +137,29 @@
 				798C88352B9B6F9C00BEAD17 /* ConstraintsByCoding.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		79C1FBB82BADCCEC0060C0E0 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				79C1FBB92BADCCF90060C0E0 /* BaseType.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		79C1FBBD2BADCDA60060C0E0 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		79C1FBBE2BADD2D80060C0E0 /* Bases */ = {
+			isa = PBXGroup;
+			children = (
+				79C1FBB62BADCCA30060C0E0 /* BaseViewController.swift */,
+			);
+			path = Bases;
 			sourceTree = "<group>";
 		};
 		9C8FC193197531F03B3D0A4F /* Pods */ = {
@@ -168,11 +200,15 @@
 		DED4B1FA2600A77B00B5DA8D /* BaseProjectSwift */ = {
 			isa = PBXGroup;
 			children = (
+				79C1FBBE2BADD2D80060C0E0 /* Bases */,
+				79C1FBBD2BADCDA60060C0E0 /* Managers */,
+				79C1FBB82BADCCEC0060C0E0 /* Protocols */,
 				793AED402B9DAEEB00595BAD /* Configs */,
 				793AED3F2B9DAEAA00595BAD /* Views */,
 				798C88342B9B6F4500BEAD17 /* Util */,
 				DED4B1FB2600A77B00B5DA8D /* AppDelegate.swift */,
-				DED4B1FF2600A77B00B5DA8D /* ViewController.swift */,
+				DED4B1FF2600A77B00B5DA8D /* HomeViewController.swift */,
+				79C1FBB42BA9E5CE0060C0E0 /* HomeViewModel.swift */,
 				DED4B2042600A77E00B5DA8D /* Assets.xcassets */,
 				DED4B2062600A77E00B5DA8D /* LaunchScreen.storyboard */,
 				DED4B2092600A77E00B5DA8D /* Info.plist */,
@@ -456,9 +492,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DED4B2002600A77B00B5DA8D /* ViewController.swift in Sources */,
+				DED4B2002600A77B00B5DA8D /* HomeViewController.swift in Sources */,
 				798C88362B9B6F9C00BEAD17 /* ConstraintsByCoding.swift in Sources */,
+				79C1FBB52BA9E5CE0060C0E0 /* HomeViewModel.swift in Sources */,
 				DED4B1FC2600A77B00B5DA8D /* AppDelegate.swift in Sources */,
+				79C1FBBA2BADCCF90060C0E0 /* BaseType.swift in Sources */,
+				79A0DA1E2BA9E21F00294B3C /* CustomView.swift in Sources */,
+				79C1FBB72BADCCA30060C0E0 /* BaseViewController.swift in Sources */,
 				79195D752B92B721008E2D48 /* Constants.swift in Sources */,
 				79195D732B92B692008E2D48 /* CustomSegmentedControl.swift in Sources */,
 			);
@@ -639,8 +679,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.toannguyen.BaseProjectSwift.BaseProjectSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -659,8 +703,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.toannguyen.BaseProjectSwift.BaseProjectSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -9,12 +9,10 @@ import Foundation
 import UIKit
 
 class CustomSegmentedControl: UISegmentedControl {
-    private lazy var bottomUnderlineView: UIView = {
-        let underlineView = UIView()
-        underlineView.backgroundColor = Constants.Segment.underlineViewColor
-        underlineView.translatesAutoresizingMaskIntoConstraints = false
-        return underlineView
-    }()
+    private lazy var bottomUnderlineView = UIView().style {
+        $0.backgroundColor = Constants.Segment.underlineViewColor
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
     private lazy var leadingDistanceConstraint: NSLayoutConstraint = {
         return bottomUnderlineView.leftAnchor.constraint(equalTo: self.leftAnchor)
@@ -82,4 +80,8 @@ class CustomSegmentedControl: UISegmentedControl {
         })
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        changeSegmentedControlLinePosition()
+    }
 }
