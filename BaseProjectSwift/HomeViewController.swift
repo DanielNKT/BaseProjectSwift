@@ -47,7 +47,6 @@ class HomeViewController: BaseViewController, BindableType, UITableViewDataSourc
         segmentedControlContainerView.constraintsTo(view: self.view, positions: .top)
         segmentedControlContainerView.constraintsTo(view: self.view, positions: .left)
         segmentedControlContainerView.constraintsTo(view: self.view, positions: .right)
-        segmentedControlContainerView.heightItem(Constants.Segment.segmentedControlHeight)
         
         tableView.constraintsTo(view: self.view, positions: .left)
         tableView.constraintsTo(view: self.view, positions: .right)
@@ -55,6 +54,7 @@ class HomeViewController: BaseViewController, BindableType, UITableViewDataSourc
         tableView.constraintsTo(view: self.segmentedControlContainerView, positions: .below)
         
         segmentedControl.constraintsTo(view: segmentedControlContainerView)
+        segmentedControl.heightItem(Constants.Segment.segmentedControlHeight)
     }
     
     //MARK: Fetch User using async await
