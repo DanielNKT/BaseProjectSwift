@@ -5,8 +5,18 @@
 //  Created by Nguyen Toan on 3/16/21.
 //
 import UIKit
+import RxSwift
 
 class HomeViewController: BaseViewController, BindableType, UITableViewDataSource, UITableViewDelegate {
+    
+    let bag = DisposeBag()
+    
+    private lazy var label = UILabel().style {
+        $0.textColor = .black
+        $0.numberOfLines = 0
+        $0.textAlignment = .center
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
     private lazy var tableView = UITableView().style {
         $0.backgroundColor = .clear
@@ -17,7 +27,7 @@ class HomeViewController: BaseViewController, BindableType, UITableViewDataSourc
         $0.backgroundColor = .clear
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    private lazy var segmentedControl = CustomSegmentedControl(frame: .zero).style {
+    private lazy var segmentedControl = CustomSegmentedControl().style {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -35,14 +45,45 @@ class HomeViewController: BaseViewController, BindableType, UITableViewDataSourc
         self.view.addSubview(tableView)
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        self.view.addSubview(label)
         
         view.addSubview(segmentedControlContainerView)
         segmentedControlContainerView.addSubview(segmentedControl)
         
         setConstraints()
-        fetchUsers()
+        viewModel.fetchUsers()
     }
     
+    override func binding() {
+        super.binding()
+        
+        viewModel.errorSubject.subscribe { element in
+            self.reloadData(users: [], error: element)
+        }.disposed(by: bag)
+        
+        viewModel.userSubject.subscribe { element in
+            self.reloadData(users: element)
+        }.disposed(by: bag)
+    }
+    
+    private func reloadData(users: [User], error: CustomError = .failToGetData("")) {
+        self.users = users
+        DispatchQueue.main.async {
+            if users.isEmpty {
+                self.tableView.isHidden = true
+                self.label.isHidden = false
+                switch error {
+                case let .failToGetData(reason):
+                    self.label.text = reason
+                }
+            } else {
+                self.tableView.isHidden = false
+                self.label.isHidden = true
+            }
+            
+            self.tableView.reloadData()
+        }
+    }
     fileprivate func setConstraints() {
         segmentedControlContainerView.constraintsTo(view: self.view, positions: .top)
         segmentedControlContainerView.constraintsTo(view: self.view, positions: .left)
@@ -55,23 +96,12 @@ class HomeViewController: BaseViewController, BindableType, UITableViewDataSourc
         
         segmentedControl.constraintsTo(view: segmentedControlContainerView)
         segmentedControl.heightItem(Constants.Segment.segmentedControlHeight)
+        label.constraintsTo(view: self.view, positions: .left)
+        label.constraintsTo(view: self.view, positions: .right)
+        label.constraintsTo(view: self.view, positions: .centerY)
     }
     
-    //MARK: Fetch User using async await
-    private func fetchUsers() {
-        Task {
-            let result = await viewModel.fetchUsers()
-            switch result {
-            case .success(let users):
-                self.users = users
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
+    
 }
 
 extension HomeViewController {

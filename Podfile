@@ -8,6 +8,11 @@ def pods_firebase
   pod 'Firebase/Crashlytics'
 end
 
+def pods_rx
+  pod 'RxSwift'
+  pod 'RxCocoa'
+end
+
 def pods_support
   pod 'SwiftyBeaver'
   pod 'R.swift'
@@ -17,19 +22,20 @@ end
 target 'BaseProjectSwift' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-
+  
   pods_firebase
   pods_support
+  pods_rx
   
   target 'BaseProjectSwiftTests' do
     inherit! :search_paths
     # Pods for testing
   end
-
+  
   target 'BaseProjectSwiftUITests' do
     # Pods for testing
   end
-
+  
   post_install do |installer|
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|

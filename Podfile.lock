@@ -140,6 +140,12 @@ PODS:
     - PromisesObjC (= 2.4.0)
   - R.swift (7.3.2)
   - RecaptchaInterop (100.0.0)
+  - RxCocoa (6.6.0):
+    - RxRelay (= 6.6.0)
+    - RxSwift (= 6.6.0)
+  - RxRelay (6.6.0):
+    - RxSwift (= 6.6.0)
+  - RxSwift (6.6.0)
   - SwifterSwift (6.0.0):
     - SwifterSwift/AppKit (= 6.0.0)
     - SwifterSwift/Combine (= 6.0.0)
@@ -181,6 +187,8 @@ DEPENDENCIES:
   - Firebase/Crashlytics
   - Firebase/Messaging
   - R.swift
+  - RxCocoa
+  - RxSwift
   - SwifterSwift
   - SwiftyBeaver
 
@@ -206,6 +214,9 @@ SPEC REPOS:
     - PromisesSwift
     - R.swift
     - RecaptchaInterop
+    - RxCocoa
+    - RxRelay
+    - RxSwift
     - SwifterSwift
     - SwiftyBeaver
 
@@ -230,9 +241,12 @@ SPEC CHECKSUMS:
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   R.swift: 0af0d882f49f03711415cb4e5215daa977d8a480
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
+  RxCocoa: 44a80de90e25b739b5aeaae3c8c371a32e3343cc
+  RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
+  RxSwift: a4b44f7d24599f674deebd1818eab82e58410632
   SwifterSwift: 66843dc594f8fb890f5543c22545921d44acc004
   SwiftyBeaver: 014b0c12065026b731bac80305294f27d63e27f6
 
-PODFILE CHECKSUM: 35d23034a07fe6a72b9eb759bca458699b2f4465
+PODFILE CHECKSUM: 6e04d445f9f336b8c707372bf88b25f0b76b661f
 
 COCOAPODS: 1.15.2

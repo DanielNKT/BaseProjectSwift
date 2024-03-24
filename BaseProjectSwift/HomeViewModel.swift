@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxSwift
 
 struct User: Codable {
     let name: String
@@ -22,8 +23,23 @@ class BaseViewModel: NSObject {
 
 class HomeViewModel: BaseViewModel {
     let url = URL(string: "https://jsonplaceholder.typicode.com/users")
+    let userSubject = PublishSubject<[User]>()
+    let errorSubject = PublishSubject<CustomError>()
     
-    func fetchUsers() async -> Result<[User], CustomError> {
+    //MARK: Fetch User using async await
+    func fetchUsers() {
+        Task {
+            let result = await self.fetchUsers()
+            switch result {
+            case .success(let users):
+                self.userSubject.onNext(users)
+            case .failure(let error):
+                self.errorSubject.onNext(error)
+            }
+        }
+    }
+    
+    private func fetchUsers() async -> Result<[User], CustomError> {
         print("fetchUser")
         guard let url = url else { return .failure(.failToGetData("Url is not valid")) }
         do {
@@ -37,6 +53,7 @@ class HomeViewModel: BaseViewModel {
             return .failure(.failToGetData(error.localizedDescription))
         }
     }
+    
     //MARK: Fetch User using closure
     private func fetchUserUsingClosure() {
         fetchUserUsingClosure { [weak self] result in
