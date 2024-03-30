@@ -35,10 +35,6 @@ class HomeViewController: BaseViewController, BindableType, UITableViewDataSourc
     
     private var users = [User]()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     override func initUI() {
         super.initUI()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
