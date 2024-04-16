@@ -40,6 +40,7 @@ extension UIView {
         case leftToRight
         case topToBottom
         case bottomToTop
+        case fullCover
     }
     
     func constraintsTo(view: UIView, positions: OptionsContraint = .full, constant: Double = 0.0) {
@@ -50,6 +51,13 @@ extension UIView {
                 self.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: constant),
                 self.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: constant),
                 self.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: constant)
+            ])
+        case .fullCover:
+            NSLayoutConstraint.activate([
+                self.topAnchor.constraint(equalTo: view.topAnchor, constant: constant),
+                self.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: constant),
+                self.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constant),
+                self.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: constant)
             ])
         case .left:
             NSLayoutConstraint.activate([

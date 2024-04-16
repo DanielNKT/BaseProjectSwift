@@ -26,7 +26,7 @@ class BaseViewController: UIViewController, BaseType {
     
     func initUI() {
         view.addSubview(bg)
-        bg.constraintsTo(view: self.view)
+        bg.constraintsTo(view: self.view, positions: .fullCover)
     }
     
     func updateUI() {

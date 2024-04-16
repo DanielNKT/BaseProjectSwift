@@ -8,7 +8,20 @@
 import Foundation
 import UIKit
 
+protocol CustomSegmentedControlDelegate: AnyObject {
+    func didSelectIndex(index: Int)
+}
+
+extension CustomSegmentedControlDelegate {
+    func didSelectIndex(index: Int) { }
+}
 class CustomSegmentedControl: UISegmentedControl {
+    weak var delegate: CustomSegmentedControlDelegate?
+    
+    func currentIndex() -> Int {
+        return self.selectedSegmentIndex
+    }
+
     private lazy var bottomUnderlineView = UIView().style {
         $0.backgroundColor = Constants.Segment.underlineViewColor
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -34,9 +47,9 @@ class CustomSegmentedControl: UISegmentedControl {
         self.tintColor = .clear
 
         // Append segments
-        self.insertSegment(withTitle: "First", at: 0, animated: true)
-        self.insertSegment(withTitle: "Second", at: 1, animated: true)
-        self.insertSegment(withTitle: "Third", at: 2, animated: true)
+        self.insertSegment(withTitle: "Favorite", at: 0, animated: true)
+        self.insertSegment(withTitle: "Map", at: 1, animated: true)
+        self.insertSegment(withTitle: "Add New", at: 2, animated: true)
 
         // Select first segment by default
         self.selectedSegmentIndex = 0
@@ -66,6 +79,7 @@ class CustomSegmentedControl: UISegmentedControl {
     }
     
     @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        self.delegate?.didSelectIndex(index: self.selectedSegmentIndex)
         changeSegmentedControlLinePosition()
     }
 

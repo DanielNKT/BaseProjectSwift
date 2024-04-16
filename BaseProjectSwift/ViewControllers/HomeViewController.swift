@@ -7,22 +7,14 @@
 import UIKit
 import RxSwift
 
-class HomeViewController: BaseViewController, BindableType, UITableViewDataSource, UITableViewDelegate {
+enum SubVC: Int, CaseIterable {
+    case favorite
+    case map
+    case addNew
+}
+
+class HomeViewController: BaseViewController, BindableType {
     
-    let bag = DisposeBag()
-    
-    private lazy var label = UILabel().style {
-        $0.textColor = .black
-        $0.numberOfLines = 0
-        $0.textAlignment = .center
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private lazy var tableView = UITableView().style {
-        $0.backgroundColor = .clear
-        $0.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
     private lazy var segmentedControlContainerView = UIView().style {
         $0.backgroundColor = .clear
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -31,90 +23,103 @@ class HomeViewController: BaseViewController, BindableType, UITableViewDataSourc
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
+    private lazy var collectionView: UICollectionView = {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.collectionViewLayout = layout
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = true
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(SubViewCell.self, forCellWithReuseIdentifier: "SubViewCell")
+        return collectionView
+    }()
+    
+    lazy var favorVC = FavoriteViewController().bind(FavoriteViewModel())
+    lazy var mapVC = MapViewController().bind(MapViewModel())
+    lazy var addNewVC = AddNewViewController().bind(AddNewViewModel())
+    lazy var arrVC = [favorVC, mapVC, addNewVC]
+    
     var viewModel: HomeViewModel!
-    
-    private var users = [User]()
-    
+
     override func initUI() {
         super.initUI()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        self.view.addSubview(tableView)
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
-        self.view.addSubview(label)
         
         view.addSubview(segmentedControlContainerView)
+        view.addSubview(collectionView)
         segmentedControlContainerView.addSubview(segmentedControl)
-        
+        segmentedControl.delegate = self
         setConstraints()
-        viewModel.fetchUsers()
     }
-    
-    override func binding() {
-        super.binding()
-        
-        viewModel.errorSubject.subscribe { element in
-            self.reloadData(users: [], error: element)
-        }.disposed(by: bag)
-        
-        viewModel.userSubject.subscribe { element in
-            self.reloadData(users: element)
-        }.disposed(by: bag)
-    }
-    
-    private func reloadData(users: [User], error: CustomError = .failToGetData("")) {
-        self.users = users
-        DispatchQueue.main.async {
-            if users.isEmpty {
-                self.tableView.isHidden = true
-                self.label.isHidden = false
-                switch error {
-                case let .failToGetData(reason):
-                    self.label.text = reason
-                }
-            } else {
-                self.tableView.isHidden = false
-                self.label.isHidden = true
-            }
-            
-            self.tableView.reloadData()
-        }
-    }
+
     fileprivate func setConstraints() {
         segmentedControlContainerView.constraintsTo(view: self.view, positions: .top)
         segmentedControlContainerView.constraintsTo(view: self.view, positions: .left)
         segmentedControlContainerView.constraintsTo(view: self.view, positions: .right)
         
-        tableView.constraintsTo(view: self.view, positions: .left)
-        tableView.constraintsTo(view: self.view, positions: .right)
-        tableView.constraintsTo(view: self.view, positions: .bottom)
-        tableView.constraintsTo(view: self.segmentedControlContainerView, positions: .below)
-        
         segmentedControl.constraintsTo(view: segmentedControlContainerView)
         segmentedControl.heightItem(Constants.Segment.segmentedControlHeight)
-        label.constraintsTo(view: self.view, positions: .left)
-        label.constraintsTo(view: self.view, positions: .right)
-        label.constraintsTo(view: self.view, positions: .centerY)
+        
+        collectionView.constraintsTo(view: self.view, positions: .left)
+        collectionView.constraintsTo(view: self.view, positions: .right)
+        collectionView.constraintsTo(view: self.view, positions: .bottom)
+        collectionView.constraintsTo(view: self.segmentedControlContainerView, positions: .topToBottom)
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
-    
-    
 }
 
-extension HomeViewController {
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return SubVC.allCases.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = users[indexPath.row].name
-        cell.backgroundColor = .clear
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SubViewCell", for: indexPath) as! SubViewCell
+        var vc: BaseViewController
+        switch indexPath.item {
+        case SubVC.favorite.rawValue:
+            vc = FavoriteViewController().bind(FavoriteViewModel())
+        case SubVC.map.rawValue:
+            vc = MapViewController().bind(MapViewModel())
+        default:
+            vc = AddNewViewController().bind(AddNewViewModel())
+        }
+        cell.configCell(vc: vc)
+        cell.backgroundColor = .yellow
+        //cell.backgroundColor = .red
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size = CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        print("size: \(size)")
+        return size
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        self.collectionView.collectionViewLayout.invalidateLayout()
+        self.didSelectIndex(index: segmentedControl.currentIndex())
+    }
 }
-
-
+                                    
+extension HomeViewController: CustomSegmentedControlDelegate {
+    func didSelectIndex(index: Int) {
+        DispatchQueue.main.async {
+            self.collectionView.isPagingEnabled = false
+            self.collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .left, animated: true)
+            self.collectionView.isPagingEnabled = true
+        }
+    }
+}

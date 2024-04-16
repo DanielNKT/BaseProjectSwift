@@ -59,7 +59,7 @@ class LocationViewController: BaseViewController, BindableType {
             .distinctUntilChanged() // If they didn't occur, check if the new value is the same as old.
             //.filter { !$0.isEmpty } // If the new value is really new, filter for non-empty query.
             .subscribe(onNext: { [unowned self] query in // Here we subscribe to every new value, that is not empty (thanks to filter above).
-                self.shownCities = self.allCities.filter { $0.hasPrefix(query) } // We now do our "API Request" to find cities.
+                self.shownCities = self.allCities.filter { $0.localizedStandardContains(query) } // We now do our "API Request" to find cities.
                 self.tableView.reloadData() // And reload table view data.
             })
             .disposed(by: bag)
