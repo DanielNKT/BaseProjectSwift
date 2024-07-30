@@ -63,15 +63,17 @@ class FavoriteViewController: BaseViewController, BindableType {
         }.disposed(by: bag)
     }
     
-    private func reloadData(users: [User], error: CustomError = .failToGetData("")) {
+    private func reloadData(users: [User], error: APIError = .notExist) {
         self.users = users
         DispatchQueue.main.async {
             if users.isEmpty {
                 self.tableView.isHidden = true
                 self.label.isHidden = false
                 switch error {
-                case let .failToGetData(reason):
-                    self.label.text = reason
+                case .notExist:
+                    self.label.text = error.errorDescription
+                default:
+                    self.label.text = APIError.unexpected.errorDescription
                 }
             } else {
                 self.tableView.isHidden = false

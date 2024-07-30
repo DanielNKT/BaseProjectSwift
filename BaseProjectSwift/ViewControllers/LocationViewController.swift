@@ -30,6 +30,11 @@ class LocationViewController: BaseViewController, BindableType {
     var shownCities = [String]() // Data source for UITableView
     let allCities = ["Oklahoma", "Chicago", "Moscow", "Danang", "Vancouver", "Praga"] // Mocked API data source
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     override func initUI() {
         super.initUI()
         self.view.backgroundColor = .clear

@@ -15,12 +15,6 @@ class TabbarViewController: UITabBarController, UITabBarControllerDelegate {
         setupViewControllers()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
-    }
-    
     func setupViewControllers() {
         let firstVC = HomeViewController().bind(HomeViewModel())
         firstVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "home"), tag: 0)

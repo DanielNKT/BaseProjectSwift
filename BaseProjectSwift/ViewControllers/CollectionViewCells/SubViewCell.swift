@@ -12,6 +12,9 @@ class SubViewCell: UICollectionViewCell {
     
     func configCell(vc: BaseViewController) {
         self.addSubview(vc.view)
+        vc.view.translatesAutoresizingMaskIntoConstraints = false
+        vc.view.constraintsTo(view: self)
         self.layoutIfNeeded()
+        self.setNeedsLayout()
     }
 }

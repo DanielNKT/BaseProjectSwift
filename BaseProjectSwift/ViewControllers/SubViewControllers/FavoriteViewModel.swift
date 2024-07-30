@@ -10,9 +10,9 @@ import RxSwift
 import RxCocoa
 
 class FavoriteViewModel: BaseViewModel {
-    let url = URL(string: "https://jsonplaceholder.typicode.com/users")
+    let url = URL(string: "https://jsonnplaceholder.typicode.com/users")
     let userSubject = PublishSubject<[User]>()
-    let errorSubject = PublishSubject<CustomError>()
+    let errorSubject = PublishSubject<APIError>()
     
     //MARK: Fetch User using async await
     func fetchUsers() {
@@ -27,18 +27,18 @@ class FavoriteViewModel: BaseViewModel {
         }
     }
     
-    private func fetchUsers() async -> Result<[User], CustomError> {
+    private func fetchUsers() async -> Result<[User], APIError> {
         print("fetchUser")
-        guard let url = url else { return .failure(.failToGetData("Url is not valid")) }
+        guard let url = url else { return .failure(.invalidUrl) }
         do {
             let (data, response) = try await URLSession.shared.data(from: url)
             guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-                return .failure(.failToGetData("Error while fetching data"))
+                return .failure(.unexpected)
             }
             let users = try JSONDecoder().decode([User].self, from: data)
             return .success(users)
         } catch {
-            return .failure(.failToGetData(error.localizedDescription))
+            return .failure(.unexpected)
         }
     }
     
@@ -55,19 +55,23 @@ class FavoriteViewModel: BaseViewModel {
         }
     }
     
-    private func fetchUserUsingClosure(completion: @escaping (Result<[User], CustomError>) -> Void) {
+    private func fetchUserUsingClosure(completion: @escaping (Result<[User], APIError>) -> Void) {
         print("fetchUser")
-        guard let url = url else { return completion(.failure(.failToGetData("Url is not valid"))) }
+        guard let url = url else { return completion(.failure(.invalidUrl)) }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             
-            guard let data = data else {
-                return completion(.failure(.failToGetData("Url is not valid")))
+            guard let data = data, error == nil else {
+                if let error = error as? URLError {
+                    print("error: \(error.code)")
+                }
+                
+                return completion(.failure(.unexpected))
             }
             do {
                 let users = try JSONDecoder().decode([User].self, from: data)
                 return completion(.success(users))
             } catch {
-                return completion(.failure(.failToGetData(error.localizedDescription)))
+                return completion(.failure(.invalidJSON))
             }
             
         }.resume()

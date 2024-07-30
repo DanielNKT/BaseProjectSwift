@@ -26,6 +26,8 @@
 		7964CD722BC98E95002E7EED /* SubViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7964CD712BC98E95002E7EED /* SubViewCell.swift */; };
 		798C88362B9B6F9C00BEAD17 /* ConstraintsByCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798C88352B9B6F9C00BEAD17 /* ConstraintsByCoding.swift */; };
 		79A0DA1E2BA9E21F00294B3C /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A0DA1D2BA9E21F00294B3C /* CustomView.swift */; };
+		79AEB8662BD4C39200C43184 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEB8652BD4C39200C43184 /* APIError.swift */; };
+		79B674AD2BD41C5400215024 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B674AC2BD41C5400215024 /* HTTPMethod.swift */; };
 		79C1FBB52BA9E5CE0060C0E0 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C1FBB42BA9E5CE0060C0E0 /* HomeViewModel.swift */; };
 		79C1FBB72BADCCA30060C0E0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C1FBB62BADCCA30060C0E0 /* BaseViewController.swift */; };
 		79C1FBBA2BADCCF90060C0E0 /* BaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C1FBB92BADCCF90060C0E0 /* BaseType.swift */; };
@@ -81,6 +83,8 @@
 		7964CD712BC98E95002E7EED /* SubViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubViewCell.swift; sourceTree = "<group>"; };
 		798C88352B9B6F9C00BEAD17 /* ConstraintsByCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintsByCoding.swift; sourceTree = "<group>"; };
 		79A0DA1D2BA9E21F00294B3C /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
+		79AEB8652BD4C39200C43184 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		79B674AC2BD41C5400215024 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		79C1FBB42BA9E5CE0060C0E0 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		79C1FBB62BADCCA30060C0E0 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		79C1FBB92BADCCF90060C0E0 /* BaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseType.swift; sourceTree = "<group>"; };
@@ -213,6 +217,15 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		79B674AB2BD41BE400215024 /* APIManager */ = {
+			isa = PBXGroup;
+			children = (
+				79B674AC2BD41C5400215024 /* HTTPMethod.swift */,
+				79AEB8652BD4C39200C43184 /* APIError.swift */,
+			);
+			path = APIManager;
+			sourceTree = "<group>";
+		};
 		79C1FBB82BADCCEC0060C0E0 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +237,7 @@
 		79C1FBBD2BADCDA60060C0E0 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				79B674AB2BD41BE400215024 /* APIManager */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -596,6 +610,7 @@
 				790ED3F52BB83127005486D0 /* LocationViewModel.swift in Sources */,
 				79FCCCEB2BC2E57F004C9F23 /* AddNewViewController.swift in Sources */,
 				790ED3FA2BBC5A14005486D0 /* SignInViewController.swift in Sources */,
+				79B674AD2BD41C5400215024 /* HTTPMethod.swift in Sources */,
 				79A0DA1E2BA9E21F00294B3C /* CustomView.swift in Sources */,
 				79FCCCE92BC2E56C004C9F23 /* MapViewController.swift in Sources */,
 				790ED4022BBDA238005486D0 /* PasswordView.swift in Sources */,
@@ -604,6 +619,7 @@
 				79195D752B92B721008E2D48 /* Constants.swift in Sources */,
 				790ED3F72BB83127005486D0 /* ProfileViewController.swift in Sources */,
 				790ED3F42BB83127005486D0 /* TabbarViewController.swift in Sources */,
+				79AEB8662BD4C39200C43184 /* APIError.swift in Sources */,
 				7964CD722BC98E95002E7EED /* SubViewCell.swift in Sources */,
 				79195D732B92B692008E2D48 /* CustomSegmentedControl.swift in Sources */,
 				79FCCCEF2BC83E4E004C9F23 /* MapViewModel.swift in Sources */,

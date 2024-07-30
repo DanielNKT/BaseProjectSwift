@@ -22,6 +22,11 @@ class ProfileViewController: BaseViewController, BindableType {
         $0.register(UITableViewCell.self, forCellReuseIdentifier: "cell2")
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
     override func initUI() {
         super.initUI()
         self.view.backgroundColor = .clear
@@ -32,6 +37,17 @@ class ProfileViewController: BaseViewController, BindableType {
         tableView.constraintsTo(view: self.view, positions: .right)
         tableView.constraintsTo(view: self.view, positions: .bottom)
         tableView.constraintsTo(view: self.view, positions: .top)
+        
+        self.navigationController?.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(settingTap))
+
+
+        setupTableview()
+    }
+    
+    @objc func settingTap() {
+        print("setting tapped")
+    }
+    private func setupTableview(){
         // create observable
         let observable = Observable.of(cities)
         // bind to tableview

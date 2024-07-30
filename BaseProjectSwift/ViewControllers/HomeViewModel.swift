@@ -7,10 +7,6 @@
 
 import Foundation
 
-enum CustomError: Error {
-    case failToGetData(String)
-}
-
 class BaseViewModel: NSObject {
     
 }

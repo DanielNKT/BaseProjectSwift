@@ -41,7 +41,10 @@ class HomeViewController: BaseViewController, BindableType {
     lazy var arrVC = [favorVC, mapVC, addNewVC]
     
     var viewModel: HomeViewModel!
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     override func initUI() {
         super.initUI()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
@@ -82,23 +85,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SubViewCell", for: indexPath) as! SubViewCell
-        var vc: BaseViewController
-        switch indexPath.item {
-        case SubVC.favorite.rawValue:
-            vc = FavoriteViewController().bind(FavoriteViewModel())
-        case SubVC.map.rawValue:
-            vc = MapViewController().bind(MapViewModel())
-        default:
-            vc = AddNewViewController().bind(AddNewViewModel())
-        }
-        cell.configCell(vc: vc)
+        cell.configCell(vc: arrVC[indexPath.item])
         cell.backgroundColor = .yellow
         //cell.backgroundColor = .red
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        let size = CGSize(width: self.view.frame.width, height: collectionView.frame.height)
         print("size: \(size)")
         return size
     }
@@ -109,8 +103,28 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        self.collectionView.collectionViewLayout.invalidateLayout()
+        self.view.layoutIfNeeded()
+        self.view.setNeedsLayout()
+//        coordinator.animate { _ in
+//            self.collectionView.collectionViewLayout.invalidateLayout()
+//        }
+//        print("trans: \(segmentedControl.currentIndex())")
+//        self.didSelectIndex(index: segmentedControl.currentIndex())
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.view.layoutIfNeeded()
+        self.view.setNeedsLayout()
+        collectionView.collectionViewLayout.invalidateLayout()
+        print("viewDidLayoutSubviews: \(segmentedControl.currentIndex())")
         self.didSelectIndex(index: segmentedControl.currentIndex())
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let currentIndex = scrollView.contentOffset.x / CGFloat((collectionView.frame.width))
+        print("currentIndex: \(currentIndex)")
+        segmentedControl.selectedSegmentIndex = Int(currentIndex)
     }
 }
                                     
