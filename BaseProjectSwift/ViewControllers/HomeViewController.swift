@@ -6,6 +6,7 @@
 //
 import UIKit
 import RxSwift
+import UserNotifications
 
 enum SubVC: Int, CaseIterable {
     case favorite
@@ -19,7 +20,7 @@ class HomeViewController: BaseViewController, BindableType {
         $0.backgroundColor = .clear
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    private lazy var segmentedControl = CustomSegmentedControl().style {
+    private lazy var segmentedControl = CustomSegmentedControl(segmentItems: ["Favorite", "Map", "Add New"]).style {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -48,14 +49,14 @@ class HomeViewController: BaseViewController, BindableType {
     override func initUI() {
         super.initUI()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
+        overrideUserInterfaceStyle = .dark
         view.addSubview(segmentedControlContainerView)
         view.addSubview(collectionView)
         segmentedControlContainerView.addSubview(segmentedControl)
         segmentedControl.delegate = self
         setConstraints()
     }
-
+    
     fileprivate func setConstraints() {
         segmentedControlContainerView.constraintsTo(view: self.view, positions: .top)
         segmentedControlContainerView.constraintsTo(view: self.view, positions: .left)
@@ -105,11 +106,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         super.viewWillTransition(to: size, with: coordinator)
         self.view.layoutIfNeeded()
         self.view.setNeedsLayout()
-//        coordinator.animate { _ in
-//            self.collectionView.collectionViewLayout.invalidateLayout()
-//        }
-//        print("trans: \(segmentedControl.currentIndex())")
-//        self.didSelectIndex(index: segmentedControl.currentIndex())
     }
     
     override func viewDidLayoutSubviews() {

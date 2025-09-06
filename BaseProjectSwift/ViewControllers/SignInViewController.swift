@@ -60,6 +60,7 @@ class SignInViewController: BaseViewController, BindableType {
     
     override func initUI() {
         super.initUI()
+
         self.view.addSubview(userNameView)
         self.view.addSubview(passwordView)
         self.view.addSubview(signInView)
@@ -131,9 +132,12 @@ class SignInViewController: BaseViewController, BindableType {
                 self.beginFaceID()
             }
             .disposed(by: disposeBag)
-        let enableIf = Observable.combineLatest([userNameView.textField.rx.text.orEmpty.map { !$0.isEmpty },
-                                                 passwordView.textField.rx.text.orEmpty.map { !$0.isEmpty }],
-                                                resultSelector: { !$0.contains(false)})
+        let enableIf = Observable.combineLatest(
+            [
+                userNameView.textField.rx.text.orEmpty.map { !$0.isEmpty },
+                passwordView.textField.rx.text.orEmpty.map { !$0.isEmpty }
+            ],
+            resultSelector: { !$0.contains(false)})
         
         enableIf.bind(to: signInButton.rx.isEnabled).disposed(by: disposeBag)
         

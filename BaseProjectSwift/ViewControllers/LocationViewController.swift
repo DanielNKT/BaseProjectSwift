@@ -21,14 +21,34 @@ class LocationViewController: BaseViewController, BindableType {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
+    private lazy var tableViewUsingRx = UITableView().style {
+        $0.backgroundColor = .clear
+        $0.register(UITableViewCell.self, forCellReuseIdentifier: "cell1")
+        $0.register(UITableViewCell.self, forCellReuseIdentifier: "cell2")
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.isHidden = true
+    }
+    
     private lazy var searchBar = UISearchBar().style {
         $0.backgroundColor = .clear
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundImage = UIImage()
     }
+    private lazy var segmentedControlContainerView = UIView().style {
+        $0.backgroundColor = .clear
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    private lazy var segmentedControl = CustomSegmentedControl(segmentItems: ["World", "VietNam"]).style {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    let filteredVNCities = BehaviorRelay<[String]>(value: [])
+    private var cities = ["Hà Nội","Hải Phòng", "Vinh", "Huế", "Đà Nẵng", "Nha Trang", "Đà Lạt", "Vũng Tàu", "Hồ Chí Minh", "Vinh"]
     
     var shownCities = [String]() // Data source for UITableView
     let allCities = ["Oklahoma", "Chicago", "Moscow", "Danang", "Vancouver", "Praga"] // Mocked API data source
+    
+    private let isSearchVNCities = BehaviorRelay<Bool>(value: false)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,18 +60,35 @@ class LocationViewController: BaseViewController, BindableType {
         self.view.backgroundColor = .clear
         
         self.view.addSubview(searchBar)
+        view.addSubview(segmentedControlContainerView)
+        segmentedControlContainerView.addSubview(segmentedControl)
         self.view.addSubview(tableView)
+        self.view.addSubview(tableViewUsingRx)
         
         tableView.delegate = self
         tableView.dataSource = self
         
+        segmentedControlContainerView.constraintsTo(view: self.view, positions: .top)
+        segmentedControlContainerView.constraintsTo(view: self.view, positions: .left)
+        segmentedControlContainerView.constraintsTo(view: self.view, positions: .right)
+        
+        segmentedControl.constraintsTo(view: segmentedControlContainerView)
+        segmentedControl.heightItem(Constants.Segment.segmentedControlHeight)
+        
         searchBar.constraintsTo(view: self.view, positions: .left)
         searchBar.constraintsTo(view: self.view, positions: .right)
-        searchBar.constraintsTo(view: self.view, positions: .top)
+        //        searchBar.constraintsTo(view: self.view, positions: .top)
+        searchBar.constraintsTo(view: self.segmentedControlContainerView, positions: .topToBottom)
+        
         tableView.constraintsTo(view: self.view, positions: .left)
         tableView.constraintsTo(view: self.view, positions: .right)
         tableView.constraintsTo(view: self.view, positions: .bottom)
         tableView.constraintsTo(view: searchBar, positions: .below)
+        
+        tableViewUsingRx.constraintsTo(view: self.view, positions: .left)
+        tableViewUsingRx.constraintsTo(view: self.view, positions: .right)
+        tableViewUsingRx.constraintsTo(view: self.view, positions: .bottom)
+        tableViewUsingRx.constraintsTo(view: searchBar, positions: .below)
     }
     
     override func binding() {
@@ -61,13 +98,76 @@ class LocationViewController: BaseViewController, BindableType {
             .rx.text // Observable property
             .orEmpty // Make it non-optional
             .debounce(.milliseconds(500), scheduler: MainScheduler.instance) // Wait 0.5 for changes.
-            .distinctUntilChanged() // If they didn't occur, check if the new value is the same as old.
-            //.filter { !$0.isEmpty } // If the new value is really new, filter for non-empty query.
-            .subscribe(onNext: { [unowned self] query in // Here we subscribe to every new value, that is not empty (thanks to filter above).
-                self.shownCities = self.allCities.filter { $0.localizedStandardContains(query) } // We now do our "API Request" to find cities.
-                self.tableView.reloadData() // And reload table view data.
+            .distinctUntilChanged()
+            .subscribe(onNext: { [unowned self] query in
+                if self.isSearchVNCities.value {
+                    let filtered = self.cities.filter { $0.localizedStandardContains(query) }
+                    self.filteredVNCities.accept(filtered)
+                } else {
+                    self.shownCities = self.allCities.filter { $0.localizedStandardContains(query) } // We now do our "API Request" to find cities.
+                    print("\(shownCities)")
+                    self.tableView.reloadData() // And reload table view data.
+                }
+                
             })
             .disposed(by: bag)
+        
+        setupTableview()
+    }
+    
+    private func setupTableview(){
+        // create observable
+        filteredVNCities.accept(cities)
+        filteredVNCities
+            .asObservable()
+            .bind(to: tableViewUsingRx.rx.items) { (tableView, index, element) in
+                if index % 2 == 0 {
+                    let cell = UITableViewCell(style: .default, reuseIdentifier: "cell1")
+                    cell.textLabel?.text = element
+                    cell.textLabel?.textColor = .black
+                    cell.backgroundColor = .clear
+                    return cell
+                } else {
+                    let cell = UITableViewCell(style: .default, reuseIdentifier: "cell2")
+                    cell.textLabel?.text = element
+                    cell.textLabel?.textColor = .black
+                    cell.backgroundColor = .clear
+                    return cell
+                }
+            }
+            .disposed(by: bag)
+        
+        // selected cell
+        tableViewUsingRx.rx
+            .modelSelected(String.self)
+            .subscribe(onNext: { element in
+                print("Selected \(element)")
+                if self.cities.last == element {
+                    print("press last item")
+                    let vc = SignInViewController().bind(SignInViewModel())
+                    let navigationController = UINavigationController(rootViewController: vc)
+                    AppDelegate.shared.window?.rootViewController = navigationController
+                }
+            })
+            .disposed(by: bag)
+        
+        // de-selected index
+        tableViewUsingRx.rx
+            .itemDeselected
+            .subscribe(onNext: { indexPath in
+                print("Deselected with indextPath: \(indexPath)")
+            })
+            .disposed(by: bag)
+        
+        isSearchVNCities
+            .asDriver()
+            .drive(onNext: { [weak self] isVN in
+                self?.tableView.isHidden = isVN
+                self?.tableViewUsingRx.isHidden = !isVN
+            })
+            .disposed(by: bag)
+        
+        segmentedControl.delegate = self
     }
 }
 
@@ -88,7 +188,16 @@ extension LocationViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             cell.textLabel?.text = allCities[indexPath.row]
         }
+        cell.textLabel?.textColor = .black
         cell.backgroundColor = .clear
         return cell
+    }
+}
+
+extension LocationViewController: CustomSegmentedControlDelegate {
+    func didSelectIndex(index: Int) {
+        DispatchQueue.main.async {
+            self.isSearchVNCities.accept(index != 0)
+        }
     }
 }

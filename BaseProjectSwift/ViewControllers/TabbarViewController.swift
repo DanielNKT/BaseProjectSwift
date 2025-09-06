@@ -11,6 +11,7 @@ import UIKit
 class TabbarViewController: UITabBarController, UITabBarControllerDelegate {
     override public func viewDidLoad() {
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .dark
 
         setupViewControllers()
     }
@@ -20,12 +21,14 @@ class TabbarViewController: UITabBarController, UITabBarControllerDelegate {
         firstVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "home"), tag: 0)
 
         let secondVC = LocationViewController().bind(LocationViewModel())
-        secondVC.tabBarItem = UITabBarItem(title: "Location", image: UIImage(named: "location"), tag: 2)
+        secondVC.tabBarItem = UITabBarItem(title: "Location", image: UIImage(named: "location"), tag: 1)
         
-        let thirdVC = ProfileViewController().bind(ProfileViewModel())
-        thirdVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "user"), tag: 1)
+        let thirdVC = VideosViewController().bind(VideosViewModel())
+        thirdVC.tabBarItem = UITabBarItem(title: "Videos", image: UIImage(systemName: "video"), tag: 2)
         
         viewControllers = [firstVC, secondVC, thirdVC]
         self.tabBar.tintColor = UIColor.blue
+        self.tabBar.unselectedItemTintColor = UIColor.gray // unselected color
+
     }
 }

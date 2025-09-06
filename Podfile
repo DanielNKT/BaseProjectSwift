@@ -11,6 +11,7 @@ end
 def pods_rx
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'RxGesture'
 end
 
 def pods_support

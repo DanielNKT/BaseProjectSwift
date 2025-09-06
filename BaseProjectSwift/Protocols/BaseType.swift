@@ -32,3 +32,7 @@ extension UIAppearance {
         return self
     }
 }
+
+class BaseViewModel: NSObject {
+    
+}

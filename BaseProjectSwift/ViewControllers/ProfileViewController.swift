@@ -12,7 +12,7 @@ import RxCocoa
 class ProfileViewController: BaseViewController, BindableType {
     var viewModel: ProfileViewModel!
     
-    private var cities = ["Hà Nội","Hải Phòng", "Vinh", "Huế", "Đà Nẵng", "Nha Trang", "Đà Lạt", "Vũng Tàu", "Hồ Chí Minh", "Logout"]
+    private var cities = ["Logout"]
     
     let bag = DisposeBag()
     
@@ -37,16 +37,13 @@ class ProfileViewController: BaseViewController, BindableType {
         tableView.constraintsTo(view: self.view, positions: .right)
         tableView.constraintsTo(view: self.view, positions: .bottom)
         tableView.constraintsTo(view: self.view, positions: .top)
-        
-        self.navigationController?.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(settingTap))
-
-
         setupTableview()
     }
     
-    @objc func settingTap() {
-        print("setting tapped")
+    deinit {
+        print("ProfileViewController deallocated")
     }
+    
     private func setupTableview(){
         // create observable
         let observable = Observable.of(cities)
@@ -59,16 +56,17 @@ class ProfileViewController: BaseViewController, BindableType {
         //            .disposed(by: bag)
         
         observable.bind(to: tableView.rx.items) { (tableView, index, element) in
-            let indexPath = IndexPath(row: index, section: 0)
             if index % 2 == 0 {
                 let cell = UITableViewCell(style: .default, reuseIdentifier: "cell1")
                 cell.textLabel?.text = element
-                cell.backgroundColor = .yellow
+                cell.backgroundColor = .clear
+                cell.textLabel?.textColor = .black
                 return cell
             } else {
                 let cell = UITableViewCell(style: .default, reuseIdentifier: "cell2")
                 cell.textLabel?.text = element
-                cell.backgroundColor = .blue
+                cell.backgroundColor = .clear
+                cell.textLabel?.textColor = .black
                 return cell
             }
         }
@@ -77,9 +75,9 @@ class ProfileViewController: BaseViewController, BindableType {
         // selected cell
         tableView.rx
             .modelSelected(String.self)
-            .subscribe(onNext: { element in
+            .subscribe(onNext: { [weak self] element in
                 print("Selected \(element)")
-                if self.cities.last == element {
+                if self?.cities.last == element {
                     print("press last item")
                     let vc = SignInViewController().bind(SignInViewModel())
                     let navigationController = UINavigationController(rootViewController: vc)

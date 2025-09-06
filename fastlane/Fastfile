@@ -1,58 +1,85 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:ios)
 
 platform :ios do
-  desc "Description of what the lane does"
-  lane :build do
-    # increment_version()
-    build_ios_dev()
-    # add actions here: https://docs.fastlane.tools/actions
+  ######################################################
+  # Main lane: bump version, build, and upload to Firebase
+  ######################################################
+  desc "Increment version, build app, and upload to Firebase"
+  lane :build do |options|
+    bump = options[:bump] || "patch" # default: patch (can be major/minor/patch)
+    increment_version(bump: bump)
+    build_ios_dev
     firebase_app_distribution(
-          app: "1:277886324138:ios:d11a030153e11ee26aefd3",
-          # firebase_cli_path: "/usr/local/bin/firebase",
-          firebase_cli_token: "1//0goa5UQRXLPbwCgYIARAAGBASNwF-L9IrAvnKZ1uhhP7pRiFX8vc3bdO0-ODTaDamsmxtQs69mYy7SZs_iwswjZ2jSNXPE94GAsY",
-          testers: "nktoan.dev@gmail.com",
-          # groups: "team-mbtn",
-          release_notes: "Test Fastlane IOS!!"
-      )
-  end
-
-  lane :build_ios_dev do 
-    build_app(scheme: "BaseProjectSwift",
-             workspace: "BaseProjectSwift.xcworkspace",
-             include_bitcode: true,
-             export_method: "development")
-  end
-
-  lane :increment_version do
-    latest_release = firebase_app_distribution_get_latest_release(
-      app: "1:277886324138:ios:d11a030153e11ee26aefd3"
+      app: "1:277886324138:ios:d11a030153e11ee26aefd3",
+      firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"], # keep token secret
+      testers: "nktoan.dev@gmail.com",
+      release_notes: "Test Fastlane iOS!!"
     )
-    increment_build_number({ build_number: latest_release[:buildVersion].to_i + 1 })
   end
 
-desc "Load ASC API Key information to use in subsequent lanes"
- lane :load_asc_api_key do
-   app_store_connect_api_key(
-     key_id: ENV["ASC_KEY_ID"],
-     issuer_id: ENV["ASC_ISSUER_ID"],
-     key_content: ENV["ASC_KEY"],
-     is_key_content_base64: true,
-     in_house: false # detecting this via ASC private key not currently supported
-   )
- end
+  ######################################################
+  # Build only (no upload)
+  ######################################################
+  lane :build_ios_dev do 
+    build_app(
+      scheme: "BaseProjectSwift",
+      workspace: "BaseProjectSwift.xcworkspace",
+      include_bitcode: true,
+      export_method: "development"
+    )
+  end
+
+  ######################################################
+  # Increment version number
+  # - bumps marketing version (major/minor/patch)
+  # - resets build number to 1
+  ######################################################
+  lane :increment_version do |options|
+  bump = options[:bump] || "patch"
+
+  begin
+    version = get_version_number(
+      xcodeproj: "BaseProjectSwift.xcodeproj"
+    )
+    UI.message("Current version: #{version}")
+  rescue
+    UI.important("⚠️ No valid version found, setting initial version to 1.0.0 (1)")
+    increment_version_number(
+      version_number: "1.0.0",
+      xcodeproj: "BaseProjectSwift.xcodeproj"
+    )
+    increment_build_number(
+      build_number: 1,
+      xcodeproj: "BaseProjectSwift.xcodeproj"
+    )
+    next
+  end
+
+  # Bump the version (major/minor/patch)
+  increment_version_number(
+    bump_type: bump,
+    xcodeproj: "BaseProjectSwift.xcodeproj"
+  )
+
+  # Reset build number back to 1
+  increment_build_number(
+    build_number: 1,
+    xcodeproj: "BaseProjectSwift.xcodeproj"
+  )
+end
+
+
+  ######################################################
+  # Load ASC API Key for App Store Connect
+  ######################################################
+  desc "Load ASC API Key information to use in subsequent lanes"
+  lane :load_asc_api_key do
+    app_store_connect_api_key(
+      key_id: ENV["ASC_KEY_ID"],
+      issuer_id: ENV["ASC_ISSUER_ID"],
+      key_content: ENV["ASC_KEY"],
+      is_key_content_base64: true,
+      in_house: false
+    )
+  end
 end

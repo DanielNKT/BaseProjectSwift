@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 class FavoriteViewModel: BaseViewModel {
-    let url = URL(string: "https://jsonnplaceholder.typicode.com/users")
+    let url = URL(string: "https://jsonplaceholder.typicode.com/users")
     let userSubject = PublishSubject<[User]>()
     let errorSubject = PublishSubject<APIError>()
     
@@ -44,8 +44,7 @@ class FavoriteViewModel: BaseViewModel {
     
     //MARK: Fetch User using closure
     private func fetchUserUsingClosure() {
-        fetchUserUsingClosure { [weak self] result in
-            guard let self = self else { return }
+        fetchUserUsingClosure { result in
             switch result {
             case .success(let users):
                 print(users)

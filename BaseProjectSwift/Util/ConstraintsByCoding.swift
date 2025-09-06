@@ -155,6 +155,13 @@ extension UIView {
         self.widthAnchor.constraint(equalToConstant: constant).isActive = true
         self.heightAnchor.constraint(equalToConstant: constant).isActive = true
     }
+    
+    func constraintsTo(view: UIView, positions: [OptionsContraint], constant: Double = 0.0) {
+        translatesAutoresizingMaskIntoConstraints = false
+        positions.forEach {
+            constraintsTo(view: view, positions: $0, constant: constant)
+        }
+    }
 }
 
 extension UIImageView {

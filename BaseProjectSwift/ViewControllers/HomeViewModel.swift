@@ -7,10 +7,6 @@
 
 import Foundation
 
-class BaseViewModel: NSObject {
-    
-}
-
 class HomeViewModel: BaseViewModel {
     
 }

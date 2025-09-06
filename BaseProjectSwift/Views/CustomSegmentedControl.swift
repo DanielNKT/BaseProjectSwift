@@ -17,6 +17,7 @@ extension CustomSegmentedControlDelegate {
 }
 class CustomSegmentedControl: UISegmentedControl {
     weak var delegate: CustomSegmentedControlDelegate?
+    var segmentItems: [String]
     
     func currentIndex() -> Int {
         return self.selectedSegmentIndex
@@ -31,13 +32,15 @@ class CustomSegmentedControl: UISegmentedControl {
         return bottomUnderlineView.leftAnchor.constraint(equalTo: self.leftAnchor)
     }()
     
-    override init(frame: CGRect = .zero) {
-        super.init(frame: frame)
+    required init?(coder: NSCoder) {
+        self.segmentItems = []
+        super.init(coder: coder)
         commonInit()
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+    init(frame: CGRect = .zero, segmentItems: [String]) {
+        self.segmentItems = segmentItems
+        super.init(frame: frame)
         commonInit()
     }
     
@@ -47,10 +50,10 @@ class CustomSegmentedControl: UISegmentedControl {
         self.tintColor = .clear
 
         // Append segments
-        self.insertSegment(withTitle: "Favorite", at: 0, animated: true)
-        self.insertSegment(withTitle: "Map", at: 1, animated: true)
-        self.insertSegment(withTitle: "Add New", at: 2, animated: true)
-
+        for (index, item) in segmentItems.enumerated() {
+            self.insertSegment(withTitle: item, at: index, animated: false)
+        }
+        
         // Select first segment by default
         self.selectedSegmentIndex = 0
 

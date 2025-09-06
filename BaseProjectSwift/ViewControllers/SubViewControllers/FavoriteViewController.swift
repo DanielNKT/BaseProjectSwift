@@ -54,8 +54,8 @@ class FavoriteViewController: BaseViewController, BindableType {
         
         viewModel.fetchUsers()
         
-        viewModel.errorSubject.subscribe { element in
-            self.reloadData(users: [], error: element)
+        viewModel.errorSubject.subscribe { [weak self] element in
+            self?.reloadData(users: [], error: element)
         }.disposed(by: bag)
         
         viewModel.userSubject.subscribe { element in
@@ -103,6 +103,7 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = users[indexPath.row].name
         cell.backgroundColor = .clear
+        cell.textLabel?.textColor = .black
         return cell
     }
 }
